@@ -3,6 +3,17 @@ resource "azurerm_resource_group" "terra_rg" {
   location = var.azureRegion
 }
 
+resource "azurerm_public_ip" "terra_vnet_public_ip" {
+  name                = var.vnetNamePublicIP
+  resource_group_name = azurerm_resource_group.terra_rg.name
+  location            = azurerm_resource_group.terra_rg.location
+  allocation_method   = "Dynamic"
+
+  tags = {
+    environment = "Test"
+  }
+}
+
 resource "azurerm_virtual_network" "terra_vnet" {
   name                = var.vnetName
   address_space       = ["10.0.0.0/16"]
@@ -26,6 +37,7 @@ resource "azurerm_network_interface" "terra_nic" {
     name                          = "internal"
     subnet_id                     = azurerm_subnet.terra_subnet.id
     private_ip_address_allocation = "Dynamic"
+    public_ip_address_id = azurerm_public_ip.terra_vnet_public_ip.id
   }
 }
 

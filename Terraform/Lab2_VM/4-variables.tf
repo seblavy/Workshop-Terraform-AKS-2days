@@ -17,6 +17,11 @@ variable "vnetName" {
     default = "Vnet-VM"  
 }
 
+variable "vnetNamePublicIP" {
+    type = string
+    default = "Vnet-VM-public-ip"  
+}
+
 variable "subnetName" {
     type = string
     default = "Subnet-VM"  
